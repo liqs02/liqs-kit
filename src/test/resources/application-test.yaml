@@ -1,0 +1,9 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      jakarta.persistence.create-database-schemas: true
+  datasource:
+    hikari:
+      initialization-fail-timeout: 100
