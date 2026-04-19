@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "2.2.21"
     kotlin("plugin.spring") version "2.2.21"
     kotlin("plugin.jpa") version "2.2.21"
+    kotlin("kapt") version "2.2.21"
     `java-library`
     `maven-publish`
 }
@@ -49,6 +50,9 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers-junit-jupiter")
     testRuntimeOnly("org.postgresql:postgresql")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    kaptTest(platform("org.springframework.boot:spring-boot-dependencies:${property("springBootVersion")}"))
+    kaptTest("org.springframework.boot:spring-boot-configuration-processor")
 }
 
 kotlin {
