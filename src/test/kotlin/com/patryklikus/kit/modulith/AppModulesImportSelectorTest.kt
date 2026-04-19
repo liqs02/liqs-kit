@@ -13,28 +13,44 @@ class AppModulesImportSelectorTest {
     inner class SelectImports {
 
         @Test
-        fun `imports both configs when routing and schemas enabled`() {
-            val imports = selector.selectImports(metadataOf<BothEnabled>())
-            assertEquals(2, imports.size)
+        fun `imports all configs when every flag enabled`() {
+            val imports = selector.selectImports(metadataOf<AllEnabled>())
+            assertEquals(3, imports.size)
             assertContains(imports.toList(), ModuleRoutingConfig::class.java.name)
             assertContains(imports.toList(), ModuleSchemaConfig::class.java.name)
+            assertContains(imports.toList(), ModulePropertiesConfig::class.java.name)
         }
 
         @Test
-        fun `imports only schema config when routing disabled`() {
+        fun `skips routing when disabled`() {
             val imports = selector.selectImports(metadataOf<RoutingDisabled>())
-            assertEquals(listOf(ModuleSchemaConfig::class.java.name), imports.toList())
+            assertEquals(
+                listOf(ModuleSchemaConfig::class.java.name, ModulePropertiesConfig::class.java.name),
+                imports.toList(),
+            )
         }
 
         @Test
-        fun `imports only routing config when schemas disabled`() {
+        fun `skips schemas when disabled`() {
             val imports = selector.selectImports(metadataOf<SchemasDisabled>())
-            assertEquals(listOf(ModuleRoutingConfig::class.java.name), imports.toList())
+            assertEquals(
+                listOf(ModuleRoutingConfig::class.java.name, ModulePropertiesConfig::class.java.name),
+                imports.toList(),
+            )
         }
 
         @Test
-        fun `imports nothing when both disabled`() {
-            val imports = selector.selectImports(metadataOf<BothDisabled>())
+        fun `skips properties when disabled`() {
+            val imports = selector.selectImports(metadataOf<PropertiesDisabled>())
+            assertEquals(
+                listOf(ModuleRoutingConfig::class.java.name, ModuleSchemaConfig::class.java.name),
+                imports.toList(),
+            )
+        }
+
+        @Test
+        fun `imports nothing when all disabled`() {
+            val imports = selector.selectImports(metadataOf<AllDisabled>())
             assertEquals(0, imports.size)
         }
     }
@@ -44,7 +60,7 @@ class AppModulesImportSelectorTest {
 }
 
 @EnableAppModules
-private class BothEnabled
+private class AllEnabled
 
 @EnableAppModules(routing = false)
 private class RoutingDisabled
@@ -52,5 +68,8 @@ private class RoutingDisabled
 @EnableAppModules(schemas = false)
 private class SchemasDisabled
 
-@EnableAppModules(routing = false, schemas = false)
-private class BothDisabled
+@EnableAppModules(properties = false)
+private class PropertiesDisabled
+
+@EnableAppModules(routing = false, schemas = false, properties = false)
+private class AllDisabled
