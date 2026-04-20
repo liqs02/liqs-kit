@@ -1,9 +1,3 @@
-greeting: wrong
-nested.value: wrong
-outside.value: outside-hello
-sample:
-  greeting: hello
-  nested.value: nested-hello
 spring:
   jpa:
     hibernate:

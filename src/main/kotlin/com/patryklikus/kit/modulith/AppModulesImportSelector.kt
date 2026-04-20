@@ -9,7 +9,6 @@ internal class AppModulesImportSelector : ImportSelector {
         return buildList {
             if (attributes["routing"] as Boolean) add(ModuleRoutingConfig::class.java.name)
             if (attributes["schemas"] as Boolean) add(ModuleSchemaConfig::class.java.name)
-            if (attributes["properties"] as Boolean) add(ModulePropertiesConfig::class.java.name)
         }.toTypedArray()
     }
 }

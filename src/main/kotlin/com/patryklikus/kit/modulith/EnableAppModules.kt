@@ -17,8 +17,4 @@ annotation class EnableAppModules(
      *  DB schema per module, derived from module id
      */
     val schemas: Boolean = true,
-    /**
-     * Prepend the module id to the prefix of `@ConfigurationProperties` classes in each module
-     */
-    val properties: Boolean = true,
 )
