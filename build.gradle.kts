@@ -3,6 +3,7 @@ plugins {
     kotlin("plugin.spring") version "2.2.21"
     kotlin("plugin.jpa") version "2.2.21"
     `java-library`
+    `java-test-fixtures`
     `maven-publish`
 }
 
@@ -32,6 +33,11 @@ dependencies {
     compileOnly("org.hibernate.orm:hibernate-core")
     compileOnly("jakarta.persistence:jakarta.persistence-api")
     compileOnly("org.jetbrains.kotlin:kotlin-reflect")
+
+    testFixturesCompileOnly(platform("org.springframework.boot:spring-boot-dependencies:${property("springBootVersion")}"))
+    testFixturesCompileOnly("org.springframework:spring-context")
+    testFixturesCompileOnly("org.springframework.boot:spring-boot-testcontainers")
+    testFixturesCompileOnly("org.testcontainers:testcontainers-postgresql")
 
     testImplementation(platform("org.springframework.boot:spring-boot-dependencies:${property("springBootVersion")}"))
     testImplementation(platform("org.springframework.modulith:spring-modulith-bom:${property("springModulithVersion")}"))
@@ -70,6 +76,8 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
+            suppressPomMetadataWarningsFor("testFixturesApiElements")
+            suppressPomMetadataWarningsFor("testFixturesRuntimeElements")
         }
     }
 }
