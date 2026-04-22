@@ -1,11 +1,11 @@
 package com.patryklikus.kit.modulith
 
-import com.patryklikus.kit.testutil.Integration
+import com.patryklikus.kit.testutil.InternalIntegration
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@Integration
+@InternalIntegration
 class ModuleRoutingConfigIT(
     private val client: WebTestClient
 ) {

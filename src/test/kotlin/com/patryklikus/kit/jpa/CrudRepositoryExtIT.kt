@@ -2,13 +2,13 @@ package com.patryklikus.kit.jpa
 
 import com.patryklikus.kit.testapp.sample.TestItem
 import com.patryklikus.kit.testapp.sample.TestItemRepository
-import com.patryklikus.kit.testutil.Integration
+import com.patryklikus.kit.testutil.InternalIntegration
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-@Integration
+@InternalIntegration
 @Suppress("SpringJavaInjectionPointsAutowiringInspection")
 class CrudRepositoryExtIT @Autowired constructor(
     private val repository: TestItemRepository

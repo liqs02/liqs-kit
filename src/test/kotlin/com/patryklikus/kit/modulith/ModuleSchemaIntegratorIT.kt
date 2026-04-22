@@ -1,11 +1,11 @@
 package com.patryklikus.kit.modulith
 
-import com.patryklikus.kit.testutil.Integration
+import com.patryklikus.kit.testutil.InternalIntegration
 import jakarta.persistence.EntityManager
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-@Integration
+@InternalIntegration
 class ModuleSchemaIntegratorIT(
     private val em: EntityManager
 ) {
