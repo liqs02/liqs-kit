@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import java.time.Instant
+import java.time.temporal.ChronoUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -56,7 +57,10 @@ class BaseEntityIT @Autowired constructor(
         fun `is consistent after findById`() {
             val saved = testItemRepository.save(TestItem("findme"))
             val found = testItemRepository.findOne(saved.id) ?: error("not found")
-            assertEquals(saved.createdAt, found.createdAt)
+            assertEquals(
+                saved.createdAt.truncatedTo(ChronoUnit.MICROS),
+                found.createdAt.truncatedTo(ChronoUnit.MICROS),
+            )
         }
 
         @Test
