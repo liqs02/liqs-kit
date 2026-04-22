@@ -2,7 +2,7 @@ package com.patryklikus.kit.jpa
 
 import com.patryklikus.kit.testapp.sample.TestItem
 import com.patryklikus.kit.testapp.sample.TestItemRepository
-import com.patryklikus.kit.testutil.Integration
+import com.patryklikus.kit.testutil.InternalIntegration
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -11,7 +11,7 @@ import java.time.Instant
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@Integration
+@InternalIntegration
 @Suppress("SpringJavaInjectionPointsAutowiringInspection")
 class BaseEntityIT @Autowired constructor(
     private val testItemRepository: TestItemRepository
