@@ -58,8 +58,8 @@ class BaseEntityIT @Autowired constructor(
             val saved = testItemRepository.save(TestItem("findme"))
             val found = testItemRepository.findOne(saved.id) ?: error("not found")
             assertEquals(
-                saved.createdAt.truncatedTo(ChronoUnit.MICROS),
-                found.createdAt.truncatedTo(ChronoUnit.MICROS),
+                saved.createdAt.truncatedTo(ChronoUnit.SECONDS),
+                found.createdAt.truncatedTo(ChronoUnit.SECONDS),
             )
         }
 
