@@ -1,0 +1,46 @@
+package com.patryklikus.kit.money
+
+import java.math.BigDecimal
+import java.math.RoundingMode
+
+/**
+ * A monetary amount stored as an integer number of minor units (cents for EUR,
+ * yen for JPY, mills for BHD). All arithmetic is exact: overflow throws
+ * [ArithmeticException] and cross-currency operations throw
+ * [IllegalArgumentException].
+ */
+data class Money(val amount: Long, val currency: Currency) {
+
+    operator fun plus(other: Money): Money {
+        require(currency == other.currency) { "Cannot add $currency and ${other.currency}" }
+        return Money(Math.addExact(amount, other.amount), currency)
+    }
+
+    operator fun minus(other: Money): Money {
+        require(currency == other.currency) { "Cannot subtract $currency and ${other.currency}" }
+        return Money(Math.subtractExact(amount, other.amount), currency)
+    }
+
+    operator fun times(n: Long): Money = Money(Math.multiplyExact(amount, n), currency)
+
+    operator fun compareTo(other: Money): Int {
+        require(currency == other.currency) { "Cannot compare $currency and ${other.currency}" }
+        return amount.compareTo(other.amount)
+    }
+
+    fun toDecimal(): BigDecimal = BigDecimal.valueOf(amount, currency.fractionDigits)
+
+    override fun toString(): String = "${toDecimal().toPlainString()} ${currency.code}"
+
+    companion object {
+        /**
+         * Parses a major-unit decimal string into a [Money]. Throws
+         * [ArithmeticException] when the string carries more decimal places
+         * than the currency's [Currency.fractionDigits] — never silently rounds.
+         */
+        fun of(amount: String, currency: Currency): Money {
+            val scaled = BigDecimal(amount).setScale(currency.fractionDigits, RoundingMode.UNNECESSARY)
+            return Money(scaled.movePointRight(currency.fractionDigits).longValueExact(), currency)
+        }
+    }
+}
