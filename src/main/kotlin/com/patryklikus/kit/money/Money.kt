@@ -4,7 +4,7 @@ import java.math.BigDecimal
 import java.math.RoundingMode
 
 /** Monetary amount in [currency]'s minor units. Arithmetic is exact. */
-data class Money(val amount: Long, val currency: Currency) {
+data class Money internal constructor(val amount: Long, val currency: Currency) {
 
     operator fun plus(other: Money): Money {
         require(currency == other.currency) { "Cannot add $currency and ${other.currency}" }
