@@ -1,26 +1,12 @@
 package com.patryklikus.kit.testapp.sample
 
-import com.patryklikus.kit.spring.exception.ApiError
-import com.patryklikus.kit.spring.exception.Conflict
-import com.patryklikus.kit.spring.exception.ErrorType
-import com.patryklikus.kit.spring.exception.Forbidden
-import com.patryklikus.kit.spring.exception.IllegalState
-import com.patryklikus.kit.spring.exception.InvalidData
-import com.patryklikus.kit.spring.exception.NoAssociation
-import com.patryklikus.kit.spring.exception.NotFound
-import com.patryklikus.kit.spring.exception.Unauthorized
+import com.patryklikus.kit.spring.exception.*
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 data class ValidateForm(@field:NotBlank val name: String?)
 
