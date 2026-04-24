@@ -7,7 +7,7 @@ data class ExceptionProperties(
     /** Enables the default mapping of application and Spring exceptions to JSON error responses. */
     val enabled: Boolean = true,
 ) {
-    companion object {
+    internal companion object {
         const val PREFIX = "liqs.exception"
     }
 }
