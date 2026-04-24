@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 
 @ConfigurationProperties(ExceptionProperties.PREFIX)
 data class ExceptionProperties(
-    /** Whether [GlobalExceptionHandler] is registered. */
+    /** Enables the default mapping of application and Spring exceptions to JSON error responses. */
     val enabled: Boolean = true,
 ) {
     companion object {

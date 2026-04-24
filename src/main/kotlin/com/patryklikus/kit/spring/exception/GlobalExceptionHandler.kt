@@ -24,21 +24,21 @@ class GlobalExceptionHandler {
         if (e.type == ErrorType.InternalServerError) {
             log.error("ApiError", e)
         }
-        return response(e.type, e.message)
+        return response(e.type, e.message ?: "")
     }
 
     /** `@Valid` failure on a `@RequestBody`; message carries the first field error. */
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleMethodArgumentNotValid(e: MethodArgumentNotValidException): ResponseEntity<ErrorResponse> {
         val first = e.bindingResult.fieldErrors.firstOrNull()
-        val message = first?.let { "${it.field} ${it.defaultMessage}" }
+        val message = first?.let { "${it.field} ${it.defaultMessage}" } ?: ""
         return response(ErrorType.InvalidData, message)
     }
 
     /** Bean Validation failure on method parameters (e.g. `@RequestParam` with `@Min`). */
     @ExceptionHandler(ConstraintViolationException::class)
     fun handleConstraintViolation(e: ConstraintViolationException): ResponseEntity<ErrorResponse> =
-        response(ErrorType.InvalidData, null)
+        response(ErrorType.InvalidData, "")
 
     /** Request body is missing or malformed JSON. */
     @ExceptionHandler(HttpMessageNotReadableException::class)
@@ -50,10 +50,7 @@ class GlobalExceptionHandler {
     fun handleMethodArgumentTypeMismatch(e: MethodArgumentTypeMismatchException): ResponseEntity<ErrorResponse> =
         response(ErrorType.InvalidData, "Invalid value for parameter '${e.name}'")
 
-    /**
-     * Path variable missing. If its type is a JPA [Entity], treated as [ErrorType.NotFound];
-     * otherwise logged and reported as [ErrorType.InternalServerError] (controller mapping bug).
-     */
+    /** A required `@PathVariable` has no value in the request URI. */
     @ExceptionHandler(MissingPathVariableException::class)
     fun handleMissingPathVariable(e: MissingPathVariableException): ResponseEntity<ErrorResponse> {
         val paramType = e.parameter.parameterType
@@ -61,14 +58,14 @@ class GlobalExceptionHandler {
             response(ErrorType.NotFound, "${paramType.simpleName.lowercase()} not found")
         } else {
             log.error("Missing path variable", e)
-            response(ErrorType.InternalServerError, null)
+            response(ErrorType.InternalServerError, "")
         }
     }
 
     /** Spring Security authorization failure. */
     @ExceptionHandler(AccessDeniedException::class)
     fun handleAccessDenied(e: AccessDeniedException): ResponseEntity<ErrorResponse> =
-        response(ErrorType.Forbidden, null)
+        response(ErrorType.Forbidden, "")
 
     /**
      * Framework-native HTTP errors carrying their own status (e.g. `404` for unknown static resource) —
@@ -88,11 +85,9 @@ class GlobalExceptionHandler {
     @ExceptionHandler(Exception::class)
     fun handleFallback(e: Exception): ResponseEntity<ErrorResponse> {
         log.error("Unhandled exception", e)
-        return response(ErrorType.InternalServerError, null)
+        return response(ErrorType.InternalServerError, "")
     }
 
-    private fun response(type: ErrorType, message: String?): ResponseEntity<ErrorResponse> {
-        val body = ErrorResponse(type, message?.takeIf { it.isNotEmpty() })
-        return ResponseEntity.status(type.httpStatus).body(body)
-    }
+    private fun response(type: ErrorType, message: String): ResponseEntity<ErrorResponse> =
+        ResponseEntity.status(type.httpStatus).body(ErrorResponse(type, message))
 }
