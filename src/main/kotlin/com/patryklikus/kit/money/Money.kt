@@ -3,12 +3,7 @@ package com.patryklikus.kit.money
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-/**
- * A monetary amount stored as an integer number of minor units (cents for EUR,
- * yen for JPY, mills for BHD). All arithmetic is exact: overflow throws
- * [ArithmeticException] and cross-currency operations throw
- * [IllegalArgumentException].
- */
+/** Monetary amount in [currency]'s minor units. Arithmetic is exact. */
 data class Money(val amount: Long, val currency: Currency) {
 
     operator fun plus(other: Money): Money {
