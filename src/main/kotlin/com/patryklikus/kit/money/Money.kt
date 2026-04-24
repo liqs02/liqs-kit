@@ -34,9 +34,10 @@ data class Money(val amount: Long, val currency: Currency) {
 
     companion object {
         /**
-         * Parses a major-unit decimal string into a [Money]. Throws
-         * [ArithmeticException] when the string carries more decimal places
-         * than the currency's [Currency.fractionDigits] — never silently rounds.
+         * Parses a major-unit decimal string into a [Money]; never silently rounds.
+         *
+         * @throws ArithmeticException when [amount] carries more decimal places
+         * than the currency's [Currency.fractionDigits].
          */
         fun of(amount: String, currency: Currency): Money {
             val scaled = BigDecimal(amount).setScale(currency.fractionDigits, RoundingMode.UNNECESSARY)

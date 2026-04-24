@@ -1,10 +1,6 @@
 package com.patryklikus.kit.money
 
-/**
- * ISO 4217 currency codes recognized by the running JDK. Each entry delegates
- * to [java.util.Currency] for metadata, so [fractionDigits] reflects the JDK's
- * view (e.g. 2 for EUR, 0 for JPY, 3 for BHD).
- */
+/** ISO 4217 currency codes recognized by the running JDK. */
 enum class Currency {
     ADP, AED, AFA, AFN, ALL, AMD, ANG, AOA, ARS, ATS,
     AUD, AWG, AYM, AZM, AZN, BAM, BBD, BDT, BEF, BGL,
@@ -34,5 +30,7 @@ enum class Currency {
 
     private val jdk: java.util.Currency = java.util.Currency.getInstance(name)
     val code: String = jdk.currencyCode
+
+    /** Number of minor-unit decimal places (e.g. 2 for EUR, 0 for JPY, 3 for BHD). */
     val fractionDigits: Int = jdk.defaultFractionDigits
 }
