@@ -4,8 +4,10 @@ import com.patryklikus.kit.spring.exception.*
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
+import org.springframework.http.HttpStatus
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.ErrorResponseException
 import org.springframework.web.bind.annotation.*
 
 data class ValidateForm(@field:NotBlank val name: String?)
@@ -61,4 +63,7 @@ class ExceptionTestController {
 
     @GetMapping("/custom-api-error")
     fun customApiError(): Nothing = throw PaymentDeclined("insufficient funds")
+
+    @GetMapping("/error-response")
+    fun errorResponse(): Nothing = throw ErrorResponseException(HttpStatus.I_AM_A_TEAPOT)
 }

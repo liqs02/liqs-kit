@@ -176,6 +176,23 @@ class GlobalExceptionHandlerIT(
     }
 
     @Nested
+    inner class HandleErrorResponse {
+        @Test
+        fun `forwards ErrorResponseException status with empty body`() {
+            client.get().uri("/sample/exception-test/error-response").exchange()
+                .expectStatus().isEqualTo(HttpStatus.I_AM_A_TEAPOT)
+                .expectBody().isEmpty
+        }
+
+        @Test
+        fun `forwards NoResourceFoundException status with empty body`() {
+            client.get().uri("/sample/definitely-not-a-route").exchange()
+                .expectStatus().isEqualTo(HttpStatus.NOT_FOUND)
+                .expectBody().isEmpty
+        }
+    }
+
+    @Nested
     inner class HandleFallback {
         @Test
         fun `returns 500 for unhandled exceptions`() {
