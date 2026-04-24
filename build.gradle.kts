@@ -32,6 +32,9 @@ dependencies {
     compileOnly("org.springframework.modulith:spring-modulith-core")
     compileOnly("org.hibernate.orm:hibernate-core")
     compileOnly("jakarta.persistence:jakarta.persistence-api")
+    compileOnly("jakarta.validation:jakarta.validation-api")
+    compileOnly("com.fasterxml.jackson.core:jackson-annotations")
+    compileOnly("org.springframework.security:spring-security-core")
     compileOnly("org.jetbrains.kotlin:kotlin-reflect")
 
     testFixturesCompileOnly(platform("org.springframework.boot:spring-boot-dependencies:${property("springBootVersion")}"))
@@ -46,6 +49,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
+    testImplementation("org.springframework.boot:spring-boot-starter-validation")
+    testImplementation("org.springframework.security:spring-security-core")
     testImplementation("org.springframework.boot:spring-boot-webtestclient")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.springframework.modulith:spring-modulith-starter-core")

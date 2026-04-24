@@ -1,4 +1,5 @@
 package com.patryklikus.kit.spring
+
 import org.junit.jupiter.api.Test
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.AnnotatedElementUtils
