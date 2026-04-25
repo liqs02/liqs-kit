@@ -1,0 +1,2 @@
+org.springframework.boot.EnvironmentPostProcessor=\
+com.patryklikus.kit.spring.time.UtcTimeZoneEnvironmentPostProcessor
