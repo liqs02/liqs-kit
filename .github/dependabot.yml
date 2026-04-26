@@ -1,0 +1,27 @@
+version: 2
+
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    groups:
+      spring:
+        patterns: ["org.springframework*", "io.spring*"]
+      kotlin:
+        patterns: ["org.jetbrains.kotlin*"]
+      testcontainers:
+        patterns: ["org.testcontainers*"]
+      minor-and-patch:
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      day: "monday"
+    groups:
+      actions:
+        patterns: ["*"]
