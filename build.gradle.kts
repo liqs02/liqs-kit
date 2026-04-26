@@ -35,6 +35,8 @@ dependencies {
     compileOnly("jakarta.validation:jakarta.validation-api")
     compileOnly("com.fasterxml.jackson.core:jackson-annotations")
     compileOnly("org.springframework.security:spring-security-core")
+    compileOnly("org.springframework.security:spring-security-config")
+    compileOnly("org.springframework.security:spring-security-web")
     compileOnly("org.jetbrains.kotlin:kotlin-reflect")
 
     testFixturesCompileOnly(platform("org.springframework.boot:spring-boot-dependencies:${property("springBootVersion")}"))
@@ -50,6 +52,8 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("org.springframework.boot:spring-boot-starter-validation")
+    testImplementation("org.springframework.boot:spring-boot-starter-security")
+    testImplementation("org.springframework.boot:spring-boot-webmvc-test")
     testImplementation("org.springframework.security:spring-security-core")
     testImplementation("org.springframework.boot:spring-boot-webtestclient")
     testImplementation("org.springframework.boot:spring-boot-testcontainers")
