@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Project type: **lib**
+Project type: **backend-lib**
 
 ## Before you do anything
 
