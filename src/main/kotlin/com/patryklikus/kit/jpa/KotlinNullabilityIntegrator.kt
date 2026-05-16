@@ -12,21 +12,9 @@ import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
 /**
- * Marks columns backing non-nullable Kotlin properties as `NOT NULL` in the generated DDL.
+ * Marks columns backing non-nullable Kotlin reference-typed properties as `NOT NULL` in the generated DDL.
  *
- * Hibernate already infers `NOT NULL` for Kotlin primitive-backed columns (`Int`, `Long`,
- * `Boolean`, etc.) because they compile to JVM primitives. For reference-typed properties
- * (`String`, `Instant`, embedded entities, enums, ...) the JVM type is identical regardless
- * of Kotlin nullability, so without help Hibernate produces a nullable column even when
- * the Kotlin declaration is `val name: String`.
- *
- * This integrator closes that gap by walking every persistent property, consulting
- * [KProperty1.returnType] via `kotlin-reflect`, and forcing the underlying column(s)
- * to non-nullable whenever the Kotlin side is non-nullable. Properties whose Kotlin type
- * is `T?`, or whose backing field cannot be located via reflection, are left untouched.
- *
- * Discovered automatically by Hibernate through the `java.util.ServiceLoader` registration
- * in `META-INF/services/org.hibernate.integrator.spi.Integrator`.
+ * Hibernate handles Kotlin primitives natively; reference types (`String`, `Instant`, ...) need this gap closed.
  */
 class KotlinNullabilityIntegrator : Integrator {
 
@@ -54,12 +42,7 @@ class KotlinNullabilityIntegrator : Integrator {
         }
     }
 
-    /**
-     * Walks the entity class and its (Kotlin) supertypes - e.g. `BaseEntity` - collecting
-     * member properties by name. Java types are skipped because kotlin-reflect reports their
-     * fields as platform-typed (non-nullable) regardless of actual nullability, which would
-     * yield false positives.
-     */
+    /** Collects Kotlin member properties by name, walking Kotlin supertypes; Java classes are skipped to avoid platform-type false positives. */
     private fun collectKotlinProperties(mappedClass: Class<*>): Map<String, KProperty1<*, *>> {
         val byName = mutableMapOf<String, KProperty1<*, *>>()
         var current: Class<*>? = mappedClass
