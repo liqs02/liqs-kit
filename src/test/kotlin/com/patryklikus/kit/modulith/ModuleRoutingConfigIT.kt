@@ -17,6 +17,20 @@ class ModuleRoutingConfigIT(
     }
 
     @Test
+    fun `prefixes RestController in nested module with dotted id translated to path`() {
+        client.get().uri("/sample/nested/ping").exchange()
+            .expectStatus().isOk
+            .expectBody(String::class.java).isEqualTo("nested-pong")
+    }
+
+    @Test
+    fun `nested module controller is not also served under parent module prefix`() {
+        client.get().uri("/sample/ping").exchange()
+            .expectStatus().isOk
+            .expectBody(String::class.java).isEqualTo("pong")
+    }
+
+    @Test
     fun `unprefixed path returns 404`() {
         client.get().uri("/ping").exchange()
             .expectStatus().isNotFound
