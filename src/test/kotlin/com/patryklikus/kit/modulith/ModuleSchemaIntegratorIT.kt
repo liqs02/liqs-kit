@@ -16,4 +16,12 @@ class ModuleSchemaIntegratorIT(
         ).singleResult as String
         assertEquals("sample", schema)
     }
+
+    @Test
+    fun `entity in nested module shares the root module schema`() {
+        val schema = em.createNativeQuery(
+            "SELECT table_schema FROM information_schema.tables WHERE table_name = 'nested_schema_probe_item'"
+        ).singleResult as String
+        assertEquals("sample", schema)
+    }
 }
