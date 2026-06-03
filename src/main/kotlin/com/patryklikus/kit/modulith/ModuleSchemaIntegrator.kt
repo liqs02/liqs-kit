@@ -11,8 +11,8 @@ import org.springframework.modulith.core.ApplicationModules
 /**
  * Derives each entity's DB schema from its module package (`@AppModule.id`).
  *
- * Nested modules share their root module's schema (`location.address` → schema `location`),
- * so cross-schema foreign keys between parent and child stay flat.
+ * The schema is the module's full identifier with dots replaced by underscores
+ * (`location.noise` → schema `location_noise`), so each module gets its own schema.
  *
  * Requires `jakarta.persistence.create-database-schemas=true` so Hibernate creates the schemas before tables.
  */
@@ -29,7 +29,7 @@ class ModuleSchemaIntegrator(private val modules: ApplicationModules) : Integrat
             val packageName = persistentClass.mappedClass.packageName
             val module = modulesBySpecificity.firstOrNull { packageName.isInPackage(it.basePackage.name) }
                 ?: return@forEach
-            val schema = module.identifier.toString().substringBefore('.')
+            val schema = module.identifier.toString().replace('.', '_')
             persistentClass.table.schema = schema
             usedSchemas.add(schema)
         }
