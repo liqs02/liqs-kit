@@ -84,7 +84,7 @@ class EnumRefIntegrator : Integrator {
         }
     }
 
-    private fun requireNoEnumeratedConflict(field: EnumRefField) {
+    internal fun requireNoEnumeratedConflict(field: EnumRefField) {
         val jvmField = field.entityClass.getDeclaredField(field.propertyName)
         check(!jvmField.isAnnotationPresent(Enumerated::class.java)) {
             "${field.entityClass.name}.${field.propertyName} carries both @EnumRef and @Enumerated; " +
