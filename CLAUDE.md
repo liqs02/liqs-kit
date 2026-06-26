@@ -1,7 +1,10 @@
 # CLAUDE.md
 
-Project type: **backend-lib**
+Stack: Kotlin, Spring, Hibernate/JPA
 
-## Before you do anything
+A shared backend library (`com.patryklikus.kit`) providing JPA, Modulith, money,
+time and Spring helpers reused across projects.
 
-Read `~/.claude/plugins/devbook/CLAUDE.md` — it directs you to the rest.
+## References
+
+- [apartment-analyzer](https://github.com/liqs02) — primary consumer of this library
