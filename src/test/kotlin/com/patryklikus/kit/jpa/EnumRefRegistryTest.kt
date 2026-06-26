@@ -1,0 +1,31 @@
+package com.patryklikus.kit.jpa
+
+import kotlin.test.AfterTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
+
+private enum class Colour { RED, GREEN }
+
+class EnumRefRegistryTest {
+    @AfterTest fun tearDown() = EnumRefRegistry.clear()
+
+    @Test fun `maps value to id and back`() {
+        EnumRefRegistry.register(Colour::class.java, mapOf("RED" to 1, "GREEN" to 2))
+        assertEquals(2, EnumRefRegistry.idOf(Colour.GREEN))
+        assertEquals(Colour.RED, EnumRefRegistry.valueOf(Colour::class.java, 1))
+    }
+
+    @Test fun `unknown id fails loudly`() {
+        EnumRefRegistry.register(Colour::class.java, mapOf("RED" to 1))
+        assertFailsWith<IllegalStateException> { EnumRefRegistry.valueOf(Colour::class.java, 9) }
+    }
+
+    @Test fun `isSeeded reflects registration`() {
+        assertFalse(EnumRefRegistry.isSeeded(Colour::class.java))
+        EnumRefRegistry.register(Colour::class.java, mapOf("RED" to 1, "GREEN" to 2))
+        assertTrue(EnumRefRegistry.isSeeded(Colour::class.java))
+    }
+}
