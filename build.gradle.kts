@@ -31,6 +31,7 @@ dependencies {
     compileOnly("org.springframework.data:spring-data-jpa")
     compileOnly("org.springframework.modulith:spring-modulith-core")
     compileOnly("org.hibernate.orm:hibernate-core")
+    compileOnly("com.fasterxml:classmate") // Hibernate's ConverterDescriptor API exposes classmate ResolvedType; provided transitively at runtime
     compileOnly("jakarta.persistence:jakarta.persistence-api")
     compileOnly("jakarta.validation:jakarta.validation-api")
     compileOnly("com.fasterxml.jackson.core:jackson-annotations")
