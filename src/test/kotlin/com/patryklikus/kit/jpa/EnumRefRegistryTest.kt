@@ -9,6 +9,12 @@ import kotlin.test.assertTrue
 
 private enum class Colour { RED, GREEN }
 
+private enum class Planet {
+    EARTH { override fun habitable() = true },
+    MARS { override fun habitable() = false };
+    abstract fun habitable(): Boolean
+}
+
 class EnumRefRegistryTest {
     @AfterTest fun tearDown() = EnumRefRegistry.clear()
 
@@ -33,5 +39,11 @@ class EnumRefRegistryTest {
         assertFailsWith<IllegalStateException> {
             EnumRefRegistry.register(Colour::class.java, mapOf("RED" to 1)) // GREEN missing
         }
+    }
+
+    @Test fun `idOf resolves constants that have bodies`() {
+        EnumRefRegistry.register(Planet::class.java, mapOf("EARTH" to 1, "MARS" to 2))
+        assertEquals(1, EnumRefRegistry.idOf(Planet.EARTH))
+        assertEquals(2, EnumRefRegistry.idOf(Planet.MARS))
     }
 }

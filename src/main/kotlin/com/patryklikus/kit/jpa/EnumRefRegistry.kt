@@ -23,7 +23,7 @@ object EnumRefRegistry {
     }
 
     fun idOf(value: Enum<*>): Short =
-        entry(value.javaClass).idByValue[value] ?: error("No lookup id for $value")
+        entry((value as java.lang.Enum<*>).declaringClass as Class<out Enum<*>>).idByValue[value] ?: error("No lookup id for $value")
 
     fun valueOf(type: Class<out Enum<*>>, id: Short): Enum<*> =
         entry(type).valueById[id] ?: error("No ${type.simpleName} for lookup id $id")
