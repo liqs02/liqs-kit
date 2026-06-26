@@ -19,7 +19,7 @@ class EnumRefRegistryTest {
     }
 
     @Test fun `unknown id fails loudly`() {
-        EnumRefRegistry.register(Colour::class.java, mapOf("RED" to 1))
+        EnumRefRegistry.register(Colour::class.java, mapOf("RED" to 1, "GREEN" to 2))
         assertFailsWith<IllegalStateException> { EnumRefRegistry.valueOf(Colour::class.java, 9) }
     }
 
@@ -27,5 +27,11 @@ class EnumRefRegistryTest {
         assertFalse(EnumRefRegistry.isSeeded(Colour::class.java))
         EnumRefRegistry.register(Colour::class.java, mapOf("RED" to 1, "GREEN" to 2))
         assertTrue(EnumRefRegistry.isSeeded(Colour::class.java))
+    }
+
+    @Test fun `register fails when a constant has no seeded id`() {
+        assertFailsWith<IllegalStateException> {
+            EnumRefRegistry.register(Colour::class.java, mapOf("RED" to 1)) // GREEN missing
+        }
     }
 }

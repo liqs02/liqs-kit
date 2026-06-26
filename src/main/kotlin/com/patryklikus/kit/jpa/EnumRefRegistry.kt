@@ -13,9 +13,9 @@ object EnumRefRegistry {
     fun register(type: Class<out Enum<*>>, idsByName: Map<String, Short>) {
         val idByValue = HashMap<Enum<*>, Short>()
         val valueById = HashMap<Short, Enum<*>>()
-        for ((name, id) in idsByName) {
-            val constant = type.enumConstants.find { it.name == name }
-                ?: error("No ${type.name} constant named $name")
+        for (constant in type.enumConstants) {
+            val id = idsByName[constant.name]
+                ?: error("No lookup id seeded for ${type.name}.${constant.name}")
             idByValue[constant] = id
             valueById[id] = constant
         }
