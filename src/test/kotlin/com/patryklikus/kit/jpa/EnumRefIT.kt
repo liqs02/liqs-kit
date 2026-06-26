@@ -1,5 +1,7 @@
 package com.patryklikus.kit.jpa
 
+import com.patryklikus.kit.testapp.enumref.Colour
+import com.patryklikus.kit.testapp.enumref.Shirt
 import com.patryklikus.kit.testutil.InternalIntegration
 import jakarta.persistence.EntityManager
 import org.junit.jupiter.api.Test
@@ -33,7 +35,22 @@ class EnumRefIT(
         assertEquals(1, fks.toInt())
     }
 
-    // NOTE: seeded-row count and the persist/find round-trip are asserted in Task 7 (they need the seeder).
+    @Test
+    @Transactional
+    fun `lookup table is seeded with one row per constant`() {
+        val count = em.createNativeQuery("select count(*) from enumref.colour").singleResult as Number
+        assertEquals(3, count.toInt())
+        val red = em.createNativeQuery("select id from enumref.colour where name = 'RED'").singleResult as Number
+        assertEquals(1, red.toInt())
+    }
+
+    @Test
+    @Transactional
+    fun `round-trips an enum value through the foreign key`() {
+        val saved = Shirt(Colour.GREEN).also(em::persist)
+        em.flush(); em.clear()
+        assertEquals(Colour.GREEN, em.find(Shirt::class.java, saved.id).colour)
+    }
 
     @Test
     @Transactional

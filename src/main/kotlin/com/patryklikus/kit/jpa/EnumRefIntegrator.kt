@@ -80,7 +80,7 @@ class EnumRefIntegrator : Integrator {
                 )
             )
 
-            EnumRefTypes.register(field.enumType, field.tableName)
+            EnumRefTypes.register(field.enumType, lookup)
         }
     }
 
