@@ -1,1 +1,2 @@
 com.patryklikus.kit.spring.exception.GlobalExceptionHandlerAutoConfiguration
+com.patryklikus.kit.jpa.EnumRefAutoConfiguration
