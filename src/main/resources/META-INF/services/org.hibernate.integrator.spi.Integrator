@@ -1,1 +1,2 @@
 com.patryklikus.kit.jpa.KotlinNullabilityIntegrator
+com.patryklikus.kit.jpa.EnumRefIntegrator
